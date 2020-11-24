@@ -32,17 +32,20 @@ head(df2)
 #Data visualization
 ##"actual_min_temp"
 ggplot(data=df, aes(x=day_num, y=actual_min_temp, color = precip)) +
-  geom_line()+
-  geom_point()+
-  labs(title="Figure n: line plot of acutal minimum temperature of the 365 days")
+  geom_line() +
+  geom_point() +
+  labs(title="Figure 3: line plot of acutal minimum temperature of the 365 days", 
+       x = "Number of Days", y = "Actual Minimum Temperature (F)")
 
 ##"actual_max_temp"
 ggplot(data=df, aes(x=day_num, y=actual_max_temp, color = precip)) +
-  geom_line()+
-  geom_point()+
-  labs(title="Figure n: line plot of acutal maximum temperature of the 365 days")
+  geom_line() +
+  geom_point() +
+  labs(title="Figure 4: line plot of acutal maximum temperature of the 365 days", 
+       x = "Number of Days", y = "Actual Maximum Temperature (F)")
 
-#Train-test split: 80 - 20
+#Model building
+##Train-test split: 80 - 20
 set.seed(1)
 train.index <- createDataPartition(y = df2$precip, p = 0.80, list = F)
 
@@ -52,26 +55,28 @@ weather.train <- df2 %>%
 weather.test <- df2 %>% 
   slice(-train.index)
 
-#Data normalization
+##Data normalization
 weather.train.proc <- preProcess(weather.train, method = c("center","scale"))
 
 weather.train.transformed <- predict(weather.train.proc, weather.train)
 weather.test.transformed <- predict(weather.train.proc, weather.test)
 
-#Model building: K-nearest neighbor
+##K-nearest neighbor
 weather.train.knn <- train(form = precip ~ ., method = "knn", data = weather.train.transformed)
 
-#Hyperparameter tuning
+##Hyperparameter tuning
 weather.knn.big.grid <- train(form = precip ~ .,
                               method = "knn",
                               data = weather.train.transformed,
                               tuneGrid = data.frame(k = c(1:30)))
 
-##Graphing number of neighbors against accuracy
-plot <- ggplot(weather.knn.big.grid, highlight = T)
-print(plot + ggtitle("Figure n: # of Neighbors VS. Accuracy"))
 
-#Prediction
+
+###Graphing number of neighbors against accuracy
+plot <- ggplot(weather.knn.big.grid, highlight = T)
+print(plot + ggtitle("Figure 5: # of Neighbors VS. Accuracy"))
+
+##Prediction
 weather.y.hat.big.grid <- predict(weather.knn.big.grid, weather.test.transformed)
 confusionMatrix(table(weather.y.hat.big.grid, weather.test.transformed$precip))
 
@@ -82,10 +87,10 @@ weather.train$precip <- check.train
 check.test <- ifelse(weather.test$precip == 'yes', 1,0)
 weather.test$precip <- check.test
 
-#Model building: logistic regression
+##Logistic regression
 m.weather.fit <- glm(precip ~ actual_min_temp + actual_max_temp,data = weather.train,family = binomial)
 
-#Prediction
+##Prediction
 m.weather.fit.pred <- predict(m.weather.fit,newdata = weather.test,type = 'response')
 
 m.weather.fit.pred.answers <- ifelse(m.weather.fit.pred >= 0.5, 1,0)
