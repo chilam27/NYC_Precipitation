@@ -46,7 +46,7 @@ Packages: tidyverse, caret, broom.
 * Read in the CSV data set and glance through it to have a general understanding of the records and variables.
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f1.png">
+  <img width="800" height="400" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f1.png">
 </p>
 
 * Create a new variable, "precip", that transforms numeric precipitation data value into categorical values of yes (did precipitate) or no (did not precipitate).
@@ -56,7 +56,7 @@ Packages: tidyverse, caret, broom.
 * Create a sub data frame with only three variables: "actual_min_temp", "actual_max_temp", and "precip". These are the only variables in the data frame that is worth taking into consideration when building my machine learning prediction model.
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f2.png">
+  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f2.png">
 </p>
 
 ### EDA
@@ -64,13 +64,13 @@ Packages: tidyverse, caret, broom.
 * I plot this first line graph to see if there is any visible relationship pattern of the actual minimum temperature (Fahrenheit). The clearest observation is the data pattern itself. Since the first data is recorded in July of 2014 and ended in June of 2015, the temperature starts high (around 68 F) then drops significantly (around 10 F) after 200 days (winter period) and then raises again to the temperature it starts at. The most interesting pattern I observed from the graph is, especially for the colder periods, NYC precipitates more often when the actual minimum temperature is higher than average for those periods. When it comes to the warmer periods, that pattern is not as clear anymore. 
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f3.png">
+  <img width="700" height="400" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f3.png">
 </p>
 
 * I also plot this second line graph with the same concept as the one above, but this is for the actual minimum temperature. Besides the obvious data pattern (with a different scale) I stated above, my temperature and precipitation observation can also be seen a little bit more clear in this graph. This time, I can see in the warmer periods that the city precipitates more often when the actual maximum temperature is below average for those periods.
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f4.png">
+  <img width="700" height="400" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f4.png">
 </p>
 
 ### Model Building
@@ -89,13 +89,13 @@ weather.knn.big.grid <- train(form = precip ~ .,
 ```
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f5.png">
+  <img width="600" height="400" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f5.png">
 </p>
 
 * Using the best k value for the knn model, I apply it to the testing set and return the prediction information by printing the confusion matrix and related statistics using `confusionMatrix()`.
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f6.png">
+  <img width="500" height="700" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f6.png">
 </p>
 
 * Logistic regression: before building the model, I need to translate the values in "precip" variables from categorical into binary values 1 ("yes") or 0 ("no"). Then, I build the logistic regression model with the training set.
@@ -107,7 +107,7 @@ m.weather.fit <- glm(precip ~ actual_min_temp + actual_max_temp,data = weather.t
 * Similar to the knn model above, I use the model to predict the testing set and return the prediction information using `confusionMatrix()`.
 
 <p align="center">
-  <img width="500" height="300" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/master/readme_image/f7.png">
+  <img width="500" height="700" src="https://github.com/chilam27/NYC_Precipitation_Prediction/blob/main/readme_image/f7.png">
 </p>
 
 ### Overall Model Performance
