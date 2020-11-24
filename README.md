@@ -4,7 +4,7 @@ Use temperatures as features in order to deduce whether or not it will precipita
 
 ## TL;DR
 
-
+The logistic regression model returns a better accuracy score of 0.68 compared to the k-nearest neighbor model. The model also returns a far higher false-negative value (22) compare to the false-positive value (1). The model is useable but should not rely on it too much. 
 
 ## Table of Contents
 
